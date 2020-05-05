@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,14 +17,17 @@
     <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleLoadFolderButtonAction"
             text="Load Folder">
         <font>
-            <Font name="Lucida Sans Regular" size="13.0"/>
+            <Font name="Arial" size="14.0"/>
         </font>
     </Button>
     <Label fx:id="messageLabel" alignment="TOP_LEFT" layoutX="116.0" layoutY="46.0" prefHeight="60.0" prefWidth="270.0"
            wrapText="true">
         <font>
-            <Font name="Lucida Sans Regular" size="13.0"/>
+            <Font name="Arial" size="14.0"/>
         </font>
     </Label>
     <TreeView fx:id="treeView" layoutX="5.0" layoutY="84.0" prefHeight="683.0" prefWidth="388.0"/>
+    <stylesheets>
+        <URL value="@module01.css"/>
+    </stylesheets>
 </AnchorPane>
