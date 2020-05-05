@@ -9,9 +9,7 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.net.URL;
-import java.text.CharacterIterator;
 import java.text.DecimalFormat;
-import java.text.StringCharacterIterator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -27,6 +25,12 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /**
+     * When the Load Directory button is clicked, a dialog opens for the
+     * user to select the directory/folder to parse. Once the directory/
+     * folder is selected then the program recursively iterates through
+     * the selected directory/folder to display its contents.
+     */
     @FXML
     public void handleLoadFolderButtonAction() {
         DirectoryChooser dc = new DirectoryChooser();
@@ -42,23 +46,29 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Recursive iteration of directory nodes to display subdirectories
+     * and files.
+     *
+     * @param directory The current directory being parsed
+     * @return The TreeItem
+     */
     public TreeItem<String> getNodesForDirectory(File directory) {
-        // For ever iteration, this will extract the number of items
-        // (files or directories) in the current node
+        // For every iteration, this will extract the number of items
+        // (files and directories) in the current node
         long numberOfFiles = Objects.requireNonNull(directory.listFiles()).length;
 
+        // The directory/folder name will include the number of files it contains
         String folderInfo = directory.getName() + " (" + numberOfFiles + " items)";
-
         TreeItem<String> root = new TreeItem<>(folderInfo);
 
         File[] listFiles = directory.listFiles();
 
-        for (int i = 0; i < listFiles.length; i++) {
-            File f = listFiles[i];
-
+        for (File f : listFiles) {
             if (f.isDirectory()) {
                 root.getChildren().add(getNodesForDirectory(f));
             } else {
+                // Add the node with the corresponding file size
                 String fileInfo = f.getName() + " (" + prettyFileSize(f.length()) + ")";
                 root.getChildren().add(new TreeItem<>(fileInfo));
             }
