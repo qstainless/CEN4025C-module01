@@ -24,7 +24,7 @@ Clone the repo and import it into your favorite Java IDE. Make sure that:
  2. JavaFX 8 is installed in your system.
 
 ## Known Issues
-The program currently only displays all nodes under the selected folder/directory. It does not yet display the number of files inside the selected folder/directory or its subfolders/subdirectories.
+None at this time.
 
 ## Screenshots
 ### Initial prompt

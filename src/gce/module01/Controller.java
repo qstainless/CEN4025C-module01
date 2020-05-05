@@ -9,6 +9,10 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.net.URL;
+import java.text.CharacterIterator;
+import java.text.DecimalFormat;
+import java.text.StringCharacterIterator;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -39,7 +43,13 @@ public class Controller implements Initializable {
     }
 
     public TreeItem<String> getNodesForDirectory(File directory) {
-        TreeItem<String> root = new TreeItem<>(directory.getName());
+        // For ever iteration, this will extract the number of items
+        // (files or directories) in the current node
+        long numberOfFiles = Objects.requireNonNull(directory.listFiles()).length;
+
+        String folderInfo = directory.getName() + " (" + numberOfFiles + " items)";
+
+        TreeItem<String> root = new TreeItem<>(folderInfo);
 
         File[] listFiles = directory.listFiles();
 
@@ -49,10 +59,29 @@ public class Controller implements Initializable {
             if (f.isDirectory()) {
                 root.getChildren().add(getNodesForDirectory(f));
             } else {
-                root.getChildren().add(new TreeItem<>(f.getName()));
+                String fileInfo = f.getName() + " (" + prettyFileSize(f.length()) + ")";
+                root.getChildren().add(new TreeItem<>(fileInfo));
             }
         }
 
         return root;
+    }
+
+    /**
+     * Prettifies the display of file sizes
+     *
+     * @param size The file size
+     * @return The formatted file size
+     */
+    public static String prettyFileSize(long size) {
+        if (size <= 0) {
+            return "0";
+        }
+
+        final String[] units = new String[]{"B", "KiB", "MiB", "GiB", "TiB"};
+
+        int sizegroups = (int) (Math.log10(size) / Math.log10(1024));
+
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, sizegroups)) + " " + units[sizegroups];
     }
 }
