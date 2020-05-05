@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="775.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="gce.module01.Controller">
+    <Text fill="#111111c9" layoutX="5.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="This program displays the folder structure of the folder chosen by clicking on the Load Folder button."
+          textAlignment="JUSTIFY" wrappingWidth="387.7802734375">
+        <font>
+            <Font name="Arial" size="14.0"/>
+        </font>
+    </Text>
+    <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleLoadFolderButtonAction"
+            text="Load Folder">
+        <font>
+            <Font name="Lucida Sans Regular" size="13.0"/>
+        </font>
+    </Button>
+    <Label fx:id="messageLabel" alignment="TOP_LEFT" layoutX="116.0" layoutY="46.0" prefHeight="60.0" prefWidth="270.0"
+           wrapText="true">
+        <font>
+            <Font name="Lucida Sans Regular" size="13.0"/>
+        </font>
+    </Label>
+    <TreeView fx:id="treeView" layoutX="5.0" layoutY="84.0" prefHeight="683.0" prefWidth="388.0"/>
+</AnchorPane>
