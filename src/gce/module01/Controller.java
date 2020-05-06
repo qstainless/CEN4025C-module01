@@ -47,7 +47,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Recursive iteration of directory nodes to display subdirectories
+     * Recursive parsing of directory nodes to display subdirectories
      * and files.
      *
      * @param directory The current directory being parsed
