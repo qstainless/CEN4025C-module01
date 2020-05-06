@@ -24,10 +24,7 @@ Clone the repo and import it into your favorite Java IDE. Make sure that:
  2. JavaFX 8 is installed in your system.
 
 ## Known Issues
-The resulting directory tree is not sorted.
-
-## Todo
-Figure out how to sort the directory tree.
+None at this time.
 
 ## Screenshots
 ### Initial prompt

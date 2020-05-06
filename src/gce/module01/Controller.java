@@ -10,6 +10,7 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -67,6 +68,7 @@ public class Controller implements Initializable {
         for (File f : listFiles) {
             if (f.isDirectory()) {
                 root.getChildren().add(getNodesForDirectory(f));
+                root.getChildren().sort(Comparator.comparing(TreeItem::getValue));
             } else {
                 // Add the node with the corresponding file size
                 String fileInfo = f.getName() + " (" + prettyFileSize(f.length()) + ")";
