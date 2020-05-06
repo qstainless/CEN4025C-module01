@@ -68,13 +68,14 @@ public class Controller implements Initializable {
         for (File f : listFiles) {
             if (f.isDirectory()) {
                 root.getChildren().add(getNodesForDirectory(f));
-                root.getChildren().sort(Comparator.comparing(TreeItem::getValue));
             } else {
                 // Add the node with the corresponding file size
                 String fileInfo = f.getName() + " (" + prettyFileSize(f.length()) + ")";
                 root.getChildren().add(new TreeItem<>(fileInfo));
             }
         }
+
+        root.getChildren().sort(Comparator.comparing(TreeItem::getValue));
 
         return root;
     }
