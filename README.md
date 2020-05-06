@@ -1,4 +1,4 @@
-# Detail Directory Viewer
+# Detail Folder Viewer
 
 ## Overview
 This is a Java program that reads the file system beneath a specific folder/directory and stores it in a tree data structure. 
