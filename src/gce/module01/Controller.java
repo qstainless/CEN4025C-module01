@@ -1,5 +1,6 @@
 package gce.module01;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -8,6 +9,7 @@ import javafx.scene.control.TreeView;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Comparator;
@@ -33,23 +35,21 @@ public class Controller implements Initializable {
      * the selected directory/folder to display its contents.
      */
     @FXML
-    public void handleLoadFolderButtonAction() {
+    public void handleSelectDirectoryButtonAction() {
         DirectoryChooser dc = new DirectoryChooser();
 
         dc.setInitialDirectory(new File(System.getProperty("user.home")));
 
-        File selected = dc.showDialog(messageLabel.getScene().getWindow());
+        // Ask the user to select the root directory
+        File selectedRoot = dc.showDialog(messageLabel.getScene().getWindow());
 
-        if (selected == null || !selected.isDirectory()) {
-            messageLabel.setText("Could not open directory.");
-        } else {
-            treeView.setRoot(getNodesForDirectory(selected));
-        }
+        // Display the TreeView in the GUI
+        treeView.setRoot(getNodesForDirectory(selectedRoot));
     }
 
     /**
-     * Recursive parsing of directory nodes to display subdirectories
-     * and files.
+     * Recursive parsing of directory nodes to add subdirectories and files
+     * to the TreeView.
      *
      * @param directory The current directory being parsed
      * @return The TreeItem
