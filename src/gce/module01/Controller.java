@@ -1,15 +1,14 @@
 package gce.module01;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Comparator;
@@ -18,33 +17,65 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    /**
+     * The application stage
+     */
+    @FXML
+    private AnchorPane anchorPane;
+
+    /**
+     * Placeholder to display application messages
+     */
     @FXML
     private Label messageLabel;
 
+    /**
+     * The TreeView where the directory hierarchy will be displayed
+     */
     @FXML
     private TreeView<String> treeView;
 
+    /**
+     * Called by the {@code FXMLLoader} to initialize the controller after
+     * its root element has been completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the
+     *                  root object, or <tt>null</tt> if the location is
+     *                  not known.
+     * @param resources The resources used to localize the root object, or
+     *                  <tt>null</tt> if the root object was not localized.
+     */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     /**
-     * When the Load Directory button is clicked, a dialog opens for the
-     * user to select the directory/folder to parse. Once the directory/
-     * folder is selected then the program recursively iterates through
-     * the selected directory/folder to display its contents.
+     * When the Browse button is clicked, a dialog opens for the user to
+     * select the directory/folder to parse. Once the directory/folder is
+     * selected then the program recursively iterates through the selected
+     * directory/folder to display its contents.
      */
     @FXML
-    public void handleSelectDirectoryButtonAction() {
-        DirectoryChooser dc = new DirectoryChooser();
+    public void handleBrowseButtonAction() {
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-        dc.setInitialDirectory(new File(System.getProperty("user.home")));
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
         // Ask the user to select the root directory
-        File selectedRoot = dc.showDialog(messageLabel.getScene().getWindow());
+        File selectedRoot = directoryChooser.showDialog(anchorPane.getScene().getWindow());
 
-        // Display the TreeView in the GUI
-        treeView.setRoot(getNodesForDirectory(selectedRoot));
+        if (selectedRoot == null) {
+            // Cancelled directory selection
+            messageLabel.setText("No directory selected.");
+            treeView.setRoot(null);
+        } else if (!selectedRoot.isDirectory()) {
+            // Selection is not a valid directory
+            messageLabel.setText("Could not open directory.");
+            treeView.setRoot(null);
+        } else {
+            // Display the selected directory's hierarchical structure
+            treeView.setRoot(getNodesForDirectory(selectedRoot));
+        }
     }
 
     /**
@@ -65,7 +96,9 @@ public class Controller implements Initializable {
 
         File[] listFiles = directory.listFiles();
 
-        for (File f : listFiles) {
+        for (int i = 0; i < Objects.requireNonNull(listFiles).length; i++) {
+            File f = listFiles[i];
+
             if (f.isDirectory()) {
                 root.getChildren().add(getNodesForDirectory(f));
             } else {
@@ -75,6 +108,7 @@ public class Controller implements Initializable {
             }
         }
 
+        // Sort the nodes in descending alphabetical order.
         root.getChildren().sort(Comparator.comparing(TreeItem::getValue));
 
         return root;
@@ -88,13 +122,13 @@ public class Controller implements Initializable {
      */
     public static String prettyFileSize(long size) {
         if (size <= 0) {
-            return "0";
+            return "0 B";
         }
 
         final String[] units = new String[]{"B", "KiB", "MiB", "GiB", "TiB"};
 
-        int sizegroups = (int) (Math.log10(size) / Math.log10(1024));
+        int sizegroup = (int) (Math.log10(size) / Math.log10(1024));
 
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, sizegroups)) + " " + units[sizegroups];
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, sizegroup)) + " " + units[sizegroup];
     }
 }
