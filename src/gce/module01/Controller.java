@@ -74,6 +74,7 @@ public class Controller implements Initializable {
             treeView.setRoot(null);
         } else {
             // Display the selected directory's hierarchical structure
+            messageLabel.setText(null);
             treeView.setRoot(getNodesForDirectory(selectedRoot));
         }
     }
