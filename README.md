@@ -29,7 +29,7 @@ None at this time.
 ## Screenshots
 ### Initial prompt
 ![Initial Prompt](Screenshots/Initial-Prompt.png)
-### Nodirectory selected
+### No directory selected
 ![Initial Prompt](Screenshots/No-directory-selected.png)
 ### Results
 ![Results](Screenshots/Results.png)
